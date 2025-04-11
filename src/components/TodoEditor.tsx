@@ -115,7 +115,7 @@ const TodoEditor: React.FC<TodoEditorProps> = ({ todo, onBack, onDelete, onUpdat
         
         <div className="mt-4">
           <Editor
-            apiKey="your-tinymce-api-key" // You should get a free API key from TinyMCE
+            apiKey="no-api-key" // Replace with your TinyMCE API key or leave as is for development
             onInit={(evt, editor) => editorRef.current = editor}
             value={description}
             onEditorChange={handleEditorChange}
