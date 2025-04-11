@@ -1,11 +1,12 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Todo, updateTodo } from "@/api/todoApi";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Bold, Italic, Underline, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, Trash2 } from "lucide-react";
+import { ArrowLeft, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import TodoLogo from "./TodoLogo";
 import { useToast } from "@/hooks/use-toast";
+import { Editor } from "@tinymce/tinymce-react";
 
 interface TodoEditorProps {
   todo: Todo | null;
@@ -18,6 +19,7 @@ const TodoEditor: React.FC<TodoEditorProps> = ({ todo, onBack, onDelete, onUpdat
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  const editorRef = useRef<any>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -32,8 +34,8 @@ const TodoEditor: React.FC<TodoEditorProps> = ({ todo, onBack, onDelete, onUpdat
     setIsEditing(true);
   };
 
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLDivElement>) => {
-    setDescription(e.target.innerHTML);
+  const handleEditorChange = (content: string) => {
+    setDescription(content);
     setIsEditing(true);
   };
 
@@ -67,18 +69,6 @@ const TodoEditor: React.FC<TodoEditorProps> = ({ todo, onBack, onDelete, onUpdat
         variant: "destructive",
       });
     }
-  };
-
-  const formatText = (command: string, value: string = "") => {
-    document.execCommand(command, false, value);
-    const selection = window.getSelection();
-    if (selection) {
-      const range = selection.getRangeAt(0);
-      const selectedContent = document.createTextNode(selection.toString());
-      range.deleteContents();
-      range.insertNode(selectedContent);
-    }
-    setIsEditing(true);
   };
 
   if (!todo) {
@@ -122,22 +112,29 @@ const TodoEditor: React.FC<TodoEditorProps> = ({ todo, onBack, onDelete, onUpdat
           className="text-xl font-bold border-0 px-0 focus-visible:ring-0 focus-visible:ring-offset-0"
           placeholder="Title"
         />
-        <div className="editor-toolbar mt-4">
-          <button onClick={() => formatText('bold')}><Bold className="h-4 w-4" /></button>
-          <button onClick={() => formatText('italic')}><Italic className="h-4 w-4" /></button>
-          <button onClick={() => formatText('underline')}><Underline className="h-4 w-4" /></button>
-          <button onClick={() => formatText('insertUnorderedList')}><List className="h-4 w-4" /></button>
-          <button onClick={() => formatText('insertOrderedList')}><ListOrdered className="h-4 w-4" /></button>
-          <button onClick={() => formatText('justifyLeft')}><AlignLeft className="h-4 w-4" /></button>
-          <button onClick={() => formatText('justifyCenter')}><AlignCenter className="h-4 w-4" /></button>
-          <button onClick={() => formatText('justifyRight')}><AlignRight className="h-4 w-4" /></button>
+        
+        <div className="mt-4">
+          <Editor
+            apiKey="your-tinymce-api-key" // You should get a free API key from TinyMCE
+            onInit={(evt, editor) => editorRef.current = editor}
+            value={description}
+            onEditorChange={handleEditorChange}
+            init={{
+              height: 300,
+              menubar: false,
+              plugins: [
+                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+              ],
+              toolbar: 'undo redo | blocks | ' +
+                'bold italic forecolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+              content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+            }}
+          />
         </div>
-        <div
-          className="todo-content"
-          contentEditable
-          dangerouslySetInnerHTML={{ __html: description }}
-          onInput={handleDescriptionChange}
-        />
       </div>
     </div>
   );

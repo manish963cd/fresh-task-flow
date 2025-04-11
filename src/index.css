@@ -47,18 +47,16 @@
   }
 }
 
-.editor-toolbar {
-  @apply flex flex-wrap gap-2 mb-3;
-}
-
-.editor-toolbar button {
-  @apply p-1 hover:bg-gray-100 rounded;
-}
-
 .todo-content {
   @apply min-h-[200px] focus:outline-none;
 }
 
-.ql-editor {
-  @apply min-h-[300px] focus:outline-none;
+/* TinyMCE height control */
+.tox-tinymce {
+  @apply border rounded-md;
+}
+
+/* Make sure TinyMCE editor takes up proper space */
+.tox .tox-editor-container {
+  @apply min-h-[300px];
 }
