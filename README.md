@@ -1,73 +1,97 @@
-# Welcome to your Lovable project
 
-## Project info
+# Todo Application
 
-**URL**: https://lovable.dev/projects/c1e21fe8-5a8e-44eb-ad65-5587109daac7
+A full-stack Todo application with React frontend and Node.js/Express/MongoDB backend.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- Create, read, update, and delete todos
+- Rich text editing for todo descriptions
+- Real-time database updates when edits are made
+- Pagination for todo list
+- Search functionality
+- Mobile-responsive design
 
-**Use Lovable**
+## Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c1e21fe8-5a8e-44eb-ad65-5587109daac7) and start prompting.
+### Frontend
+- React with TypeScript
+- Tailwind CSS for styling
+- shadcn/ui components
+- Responsive layout
 
-Changes made via Lovable will be committed automatically to this repo.
+### Backend
+- Node.js with Express
+- MongoDB for data storage
+- RESTful API architecture
 
-**Use your preferred IDE**
+## Getting Started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB (local or MongoDB Atlas)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Setup
 
-Follow these steps:
+#### Frontend Setup
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```bash
+# Install dependencies
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+#### Backend Setup
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+# Navigate to server directory
+cd server
 
-**Use GitHub Codespaces**
+# Install dependencies
+npm install
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Start server (development mode)
+npm run dev
 
-## What technologies are used for this project?
+# For production
+npm start
+```
 
-This project is built with:
+### Environment Variables
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Create a `.env` file in the server directory with:
 
-## How can I deploy this project?
+```
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/todo-app
+```
 
-Simply open [Lovable](https://lovable.dev/projects/c1e21fe8-5a8e-44eb-ad65-5587109daac7) and click on Share -> Publish.
+For production, you'll want to use a MongoDB Atlas URI or other MongoDB host.
 
-## Can I connect a custom domain to my Lovable project?
+## API Endpoints
 
-Yes it is!
+- `GET /api/todos` - Get todos with pagination
+- `GET /api/todos/:id` - Get a specific todo
+- `POST /api/todos` - Create a new todo
+- `PUT /api/todos/:id` - Update a todo
+- `DELETE /api/todos/:id` - Delete a todo
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Deployment
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Frontend
+Build the frontend:
+
+```bash
+npm run build
+```
+
+### Backend
+For production, set the NODE_ENV environment variable to "production":
+
+```bash
+NODE_ENV=production npm start
+```
+
+This will serve the frontend build files from the server as well.
